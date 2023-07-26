@@ -1,7 +1,7 @@
 # depslib dependency file v1.0
-1689959695 source:/home/badbad/ProjectsC++/PackagesComprassion/main.cpp
+1690274366 source:/home/badbad/ProjectsC++/PackagesComprassion/main.cpp
 	<iostream>
-	"branchescomprassion.h"
+	"branch.h"
 
 1689959366 source:/home/badbad/ProjectsC++/PackagesComprassion/branchescomprassion.cpp
 	"branchescomprassion.h"
@@ -15,14 +15,17 @@
 	<list>
 	<string>
 
-1690024967 source:/home/badbad/ProjectsC++/PackagesComprassion/branch.cpp
+1690274684 source:/home/badbad/ProjectsC++/PackagesComprassion/branch.cpp
 	"branch.h"
 	<curl/curl.h>
 	<nlohmann/json.hpp>
 	<string>
 	<exception>
+	<algorithm>
 
-1690024976 /home/badbad/ProjectsC++/PackagesComprassion/branch.h
-	<list>
+1690392721 /home/badbad/ProjectsC++/PackagesComprassion/branch.h
+	<map>
+	<set>
 	<string>
+	<list>
 
