@@ -51,6 +51,7 @@ public:
     BranchCompression(const Branch &firstBranch, const Branch &secondBranch) :
         first_(firstBranch), second_(secondBranch) {}
 
+    //void setBranches(const std::string, const std::string);
     BranchCompression(const BranchCompression &) = default;
     BranchCompression(BranchCompression &&) = default;
     BranchCompression &operator=(const BranchCompression &) = default;
