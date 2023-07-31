@@ -5,6 +5,7 @@
 #include <exception>
 #include <regex>
 #include <algorithm>
+#include <iostream>
 namespace Obninsk
 {
 size_t writeCallback(char *ptr, size_t size, size_t nmemb, std::string *userdata)
@@ -46,31 +47,28 @@ Branch::Branch(const std::string &namebranch)
     using json = nlohmann::json;
 
     json js = json::parse(response);
-    for(const auto &it : js["packages"]) {
-    PackageInfo pack {"as"};
+    for(const auto &it : js["packages"])
         packages_.insert( std::make_pair(it["name"], PackageInfo {it["version"]}) );
-    }
 }
 bool comp(const std::pair<std::string, PackageInfo> &p1, const std::pair<std::string, PackageInfo> &p2)
 {
     return p1.first < p2.first;
 }
-std::list<std::pair<std::string, PackageInfo>> BranchCompression::getPackagesOnlyInFirst()//set
+std::list<std::pair<std::string, PackageInfo>> BranchComparing::getPackagesOnlyInFirst()//set
 {
     std::list<std::pair<std::string, PackageInfo>> result;
-    set_difference(first_.begin(), first_.end(), second_.begin(), second_.end(), std::back_inserter(result), comp);
+    set_difference(firstBranch_.begin(), firstBranch_.end(), secondBranch_.begin(), secondBranch_.end(), std::back_inserter(result), comp);
     return result;
 }
-std::list<std::pair<std::string, PackageInfo>> BranchCompression::getPackagesOnlyInSecond()
+std::list<std::pair<std::string, PackageInfo>> BranchComparing::getPackagesOnlyInSecond()
 {
     std::list<std::pair<std::string, PackageInfo>> result;
-    set_difference(second_.begin(), second_.end(), first_.begin(), first_.end(), std::back_inserter(result), comp);
+    set_difference(secondBranch_.begin(), secondBranch_.end(), firstBranch_.begin(), firstBranch_.end(), std::back_inserter(result), comp);
     return result;
 }
-int BranchCompression::compareVersions(const std::string first, const std::string second)
-{//1 -> first > second, -1 -> first < second, 0 -> first == second
+int BranchComparing::compareVersions(const std::string first, const std::string second)
+{//return 1 -> first > second, -1 -> first < second, 0 -> first == second
 
-//потом разберись как ты это сделал
     std::regex pattern("\\.");
 
     std::sregex_token_iterator end;
@@ -96,22 +94,29 @@ int BranchCompression::compareVersions(const std::string first, const std::strin
 
     return 0;
 }
-std::set<std::string> BranchCompression::getNamePackagesVersionMoreThanSecond()
+std::set<std::string> BranchComparing::getNamePackagesVersionMoreThanSecond()
 {
     std::set<std::string> packages;
 
-    for(auto it = first_.begin(); it != first_.end(); ++it) {
+    for(auto it = firstBranch_.begin(); it != firstBranch_.end(); ++it) {
         const std::string &packageName = it->first;
         const std::string &versionFirst = it->second.version;
 
-        auto range = second_.packages_.equal_range(packageName);
+        auto range = secondBranch_.packages_.equal_range(packageName);
 
         for(auto secondIt = range.first; secondIt != range.second; ++secondIt) {
             const std::string &versionSecond = secondIt->second.version;
 
-            if(this->compareVersions(versionFirst, versionSecond) > 0) {
-                packages.insert(packageName);
-                break;
+            try {
+                if(compareVersions(versionFirst, versionSecond) > 0) {
+                    packages.insert(packageName);
+                    break;
+                }
+            }
+            catch(const std::invalid_argument &ex) {
+                std::cerr << "Неправильный аргумент: " << ex.what() << std::endl;
+                packages.insert("Ошибка при сравнении");
+                continue;
             }
         }
     }

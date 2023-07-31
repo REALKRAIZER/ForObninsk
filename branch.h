@@ -17,10 +17,12 @@ struct PackageInfo
     std::string version;
 };
 
-class BranchCompression;
-class Branch//добавь оболочку над итераторами
+class BranchComparing;
+/*добавь оболочку над итераторами list, чтобы стандартные шаблоны обращали к итератору класса так:
+Branch::iterator*/
+class Branch
 {
-    friend class BranchCompression;//потом попробуй сделать дружественным метод
+    friend class BranchComparing;//потом попробуй сделать дружественным метод
 private:
     std::multimap<std::string, PackageInfo> packages_;
 public:
@@ -38,30 +40,30 @@ public:
 };
 //сделай пседонимы огромным названиям типов
 //сократи названия методов
-class BranchCompression
+class BranchComparing
 {
 private:
-    mutable Branch first_;
-    mutable Branch second_;
+    mutable Branch firstBranch_;
+    mutable Branch secondBranch_;
 
     int compareVersions(const std::string, const std::string);
 public:
-    BranchCompression(const char *firstStr, const char *secondStr) :
-        first_(firstStr), second_(secondStr) {}
-    BranchCompression(const Branch &firstBranch, const Branch &secondBranch) :
-        first_(firstBranch), second_(secondBranch) {}
+    BranchComparing(const char *firstStr, const char *secondStr) :
+        firstBranch_(firstStr), secondBranch_(secondStr) {}
+    BranchComparing(const Branch &firstBranch, const Branch &secondBranch) :
+        firstBranch_(firstBranch), secondBranch_(secondBranch) {}
 
     //void setBranches(const std::string, const std::string);
-    BranchCompression(const BranchCompression &) = default;
-    BranchCompression(BranchCompression &&) = default;
-    BranchCompression &operator=(const BranchCompression &) = default;
-    BranchCompression &operator=(BranchCompression &&) = default;
+    BranchComparing(const BranchComparing &) = default;
+    BranchComparing(BranchComparing &&) = default;
+    BranchComparing &operator=(const BranchComparing &) = default;
+    BranchComparing &operator=(BranchComparing &&) = default;
 
     std::list<std::pair<std::string, PackageInfo>>  getPackagesOnlyInFirst();//озвращай только имя пакета, а не всю инфу
     std::list<std::pair<std::string, PackageInfo>>  getPackagesOnlyInSecond();
     std::set<std::string>                           getNamePackagesVersionMoreThanSecond();
 
-    virtual ~BranchCompression() {};
+    virtual ~BranchComparing() {};
 };
 
 }

@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1690752191 source:/home/badbad/ProjectsC++/BranchesComparing/cli.cpp
+	<iostream>
+	<fstream>
+	<unistd.h>
+	"branch.h"
+	<nlohmann/json.hpp>
+
+1690762983 /home/badbad/ProjectsC++/BranchesComparing/branch.h
+	<map>
+	<set>
+	<string>
+	<list>
+
+1690762912 source:/home/badbad/ProjectsC++/BranchesComparing/branch.cpp
+	"branch.h"
+	<curl/curl.h>
+	<nlohmann/json.hpp>
+	<string>
+	<exception>
+	<regex>
+	<algorithm>
+	<iostream>
+

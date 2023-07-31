@@ -23,32 +23,32 @@ int main(int argc, char *argv[])
                     filename = optarg;
                     break;
 
-                default: /* '?' */
+                default:
                     std::cerr << "Some problems:(" << std::endl;
                     exit(EXIT_FAILURE);
 
             }
         }
-        Obninsk::BranchCompression compression(firstBranch, secondBranch);
+        Obninsk::BranchComparing comparing(firstBranch, secondBranch);
 
         using json = nlohmann::json;
         json data;
         data["only_in_first"] = json::array();
         data["only_in_second"] = json::array();
-        //data["VersionMoreThanSecond"] = json::array();
+        data["version_more_than_second"] = json::array();
 
-        auto temp = compression.getPackagesOnlyInFirst();
+        auto temp = comparing.getPackagesOnlyInFirst();
         for(auto it = temp.begin(); it != temp.end(); ++it) {
             data["only_in_first"].push_back(it->first);
         }
-        temp = compression.getPackagesOnlyInSecond();
+        temp = comparing.getPackagesOnlyInSecond();
         for(auto it = temp.begin(); it != temp.end(); ++it) {
             data["only_in_second"].push_back(it->first);
         }
-        /*temp = compression.getNamePackagesVersionMoreThanSecond();
-        for(auto it = temp.begin(); it != temp.end(); ++it) {
-            data["only_in_second"].push_back(*it);
-        }*/
+        auto temp2 = comparing.getNamePackagesVersionMoreThanSecond();
+        for(auto it = temp2.begin(); it != temp2.end(); ++it) {
+            data["version_more_than_second"].push_back(*it);
+        }
         if(filename != NULL) {
             std::ofstream fout(filename);
             if(fout.is_open()) {
@@ -64,9 +64,11 @@ int main(int argc, char *argv[])
 
     }
     catch(const std::exception &ex) {
-        std::cout << ex.what() << std::endl;
+        std::cerr << "Ошибка: " << ex.what() << std::endl;
     }
-    catch(...) {return 1;}
+    catch(...) {
+        std::cerr << "Неизвестная ошибка" << std::endl;
+    }
 
     return 0;
 }
