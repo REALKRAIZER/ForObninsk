@@ -39,3 +39,9 @@ in this case, the json structure will be written to the output.txt file:
 ```
 
 If you omit the f parameter or do not specify a file name, then json will be output to the standard stream
+
+- the only_in_first array stores all packages that are in the 1st but not in the 2nd
+
+- the only_in_second array stores all packages that are in the 2nd but not in the 1st
+
+- the version_more_than_second array stores all packages, all packages whose version is greater in the 1st than in the 2nd
