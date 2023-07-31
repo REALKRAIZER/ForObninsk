@@ -1,4 +1,4 @@
-# ForObninskin order to save time, I refused to build the rpm package, so we will build it manually
+# In order to save time, I refused to build the rpm package, so we will build it manually
 
 ## set environment variables:
 
@@ -15,8 +15,8 @@ export PATH=/usr/local/sbin
     apt-get -y install nlohmann-json-devel(on alt linux),
     apt-get -y install libcurl
 2. clone the github repository and go to it in our terminal using cd
-3. mv branch.h cur_path/usr/local/include
-4. g++ -fPIC -shared cur_path/src/branch.cpp -o /usr/local/lib/libbranchcomparing.so
+3. cp /include/branch.h /usr/local/include
+4. g++ -fPIC -shared /src/branch.cpp -o /usr/local/lib/libbranchcomparing.so
 ```
 
 Done! Library is installed
@@ -27,6 +27,8 @@ Done! Library is installed
 1. install library(upper)
 2. g++ cli.cpp -lbranchcomparing.so -o /usr/local/sbin/CLIBranchComparing -lcurl
 ```
+
+Done! CLI is installed
 
 ## Usage example:
 
