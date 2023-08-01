@@ -17,7 +17,7 @@
 ```
 1. install the curl, g++ and nlohmann libraries:
     apt-get -y install nlohmann-json-devel(on alt linux)
-    apt-get -y install libcurl
+    apt-get -y install libcurl-devel
     apt-get -y install gcc-c++
 2. clone the github repository and go to it in our terminal using cd
 3. make install -fmakelibbranchescomparing.txt
@@ -39,7 +39,7 @@ in this case, the json structure will be written to the output.txt file:
 ( export PATH=/home/badbad/.local/sbin dont work)
 
 ```
- /home/your_username/.local/sbin/CLIBranchComparing -1sisyphus -2p10 -foutput.txt
+ /home/your_username/.local/sbin/CLIBranchesComparing -1sisyphus -2p10 -foutput.txt
 ```
 
 If you omit the f parameter or do not specify a file name, then json will be output to the standard stream
