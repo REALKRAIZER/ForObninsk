@@ -7,10 +7,11 @@ LIBSFLAGS := -lcurl
 # SHAREDLIBSFLAGS := -lbranchescomparing.so
 
 # Directories
-USER := badbad
+USER := YOUR_USERNAME
 PREFIX := /home/$(USER)/.local
 SBINDIR := $(PREFIX)/sbin
 LIBDIR := $(PREFIX)/lib
+INCLUDEDIR := $(PREFIX)/include
 
 # Files
 SOURCE := cli.cpp
@@ -22,7 +23,7 @@ SHAREDLIBS := libbranchescomparing.so
 all: $(TARGET)
 
 $(TARGET): $(SOURCE)
-	$(CXX) $(CXXFLAGS) $(SOURCE) $(LIBDIR)/$(SHAREDLIBS) -o $@ $(LIBSFLAGS) 
+	$(CXX) $(CXXFLAGS) $(SOURCE) -I$(INCLUDEDIR) $(LIBDIR)/$(SHAREDLIBS) -o $@ $(LIBSFLAGS) 
 
 install: $(TARGET)
 	export PATH=$(SBINDIR)

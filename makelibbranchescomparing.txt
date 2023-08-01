@@ -4,9 +4,10 @@
 CXX := g++
 CXXFLAGS := -Wall -Werror -pedantic -std=c++11 -fPIC
 LDFLAGS := -shared
+LIBSFLAGS := -lcurl
 
 # Directories
-USER := badbad
+USER := YOUR_USERNAME
 PREFIX := /home/$(USER)/.local
 INCLUDEDIR := $(PREFIX)/include
 LIBDIR := $(PREFIX)/lib
@@ -21,7 +22,7 @@ TARGET := $(LIBDIR)/libbranchescomparing.so
 all: $(TARGET)
 
 $(TARGET): $(SOURCE)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(SOURCE) -o $@ $(LIBSFLAGS) 
 
 install: $(TARGET)
 	export LD_LIBRARY_PATH=$(LIBDIR)
