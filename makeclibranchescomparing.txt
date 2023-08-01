@@ -1,0 +1,31 @@
+# Makefile
+
+# Compiler and flags
+CXX := g++
+CXXFLAGS := -Wall -Werror -pedantic -std=c++11 -fPIC
+LIBSFLAGS := -lcurl
+# SHAREDLIBSFLAGS := -lbranchescomparing.so
+
+# Directories
+USER := badbad
+PREFIX := /home/$(USER)/.local
+SBINDIR := $(PREFIX)/sbin
+LIBDIR := $(PREFIX)/lib
+
+# Files
+SOURCE := cli.cpp
+TARGET := $(SBINDIR)/CLIBranchComparing
+SHAREDLIBS := libbranchescomparing.so
+
+.PHONY: all install clean
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCE)
+	$(CXX) $(CXXFLAGS) $(SOURCE) $(LIBDIR)/$(SHAREDLIBS) -o $@ $(LIBSFLAGS) 
+
+install: $(TARGET)
+	export PATH=$(SBINDIR)
+	
+clean:
+	rm -f $(TARGET)

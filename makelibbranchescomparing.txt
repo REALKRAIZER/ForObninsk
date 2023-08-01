@@ -1,0 +1,33 @@
+# Makefile
+
+# Compiler and flags
+CXX := g++
+CXXFLAGS := -Wall -Werror -pedantic -std=c++11 -fPIC
+LDFLAGS := -shared
+
+# Directories
+USER := badbad
+PREFIX := /home/$(USER)/.local
+INCLUDEDIR := $(PREFIX)/include
+LIBDIR := $(PREFIX)/lib
+
+# Files
+HEADER := branch.h
+SOURCE := branch.cpp
+TARGET := $(LIBDIR)/libbranchescomparing.so
+
+.PHONY: all install clean
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCE)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
+
+install: $(TARGET)
+	export LD_LIBRARY_PATH=$(LIBDIR)
+	export CPLUS_INCLUDE_PATH=$(INCLUDEDIR)
+	install -d $(DESTDIR)$(INCLUDEDIR)
+	install -m 644 $(HEADER) $(DESTDIR)$(INCLUDEDIR)
+	
+clean:
+	rm -f $(TARGET) $(INCLUDEDIR)/$(HEADER)
